@@ -1,3 +1,4 @@
+
 # SOC Incident Management System
 
 Ứng dụng full-stack quản lý vận hành SOC, xây dựng dựa trên 14 bảng hiện có của `soc_incident_management`.
@@ -113,3 +114,6 @@ frontend/   React + TypeScript web application
 docs/       architecture and data mapping notes
 database-data/  source SQL and seed documentation from the supplied ZIP
 ```
+=======
+# soc-incident-management
+
