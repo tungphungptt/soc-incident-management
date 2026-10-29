@@ -63,7 +63,18 @@ npm run dev
 
 Mở http://localhost:5173. Đăng nhập bằng username/password đã đặt trong `backend/.env`.
 
-## 3. Database và dữ liệu mẫu
+## 3. Deploy lên Render
+
+Blueprint nằm ở `render.yaml` tại thư mục gốc repo, tạo một Docker web service cho backend và một static site cho frontend. Khi tạo Blueprint, nhập các biến được Render yêu cầu:
+
+- `DATABASE_URL`: URL MySQL bên ngoài theo dạng `mysql+pymysql://USER:PASSWORD@HOST:PORT/soc_incident_management?charset=utf8mb4`. Render Blueprint không tạo MySQL managed tương thích với backend này; MySQL phải cho phép kết nối từ Render.
+- `ADMIN_PASSWORD`: mật khẩu mạnh cho tài khoản SOC Manager.
+- `CORS_ORIGINS`: origin của frontend sau khi deploy, ví dụ `https://soc-incident-frontend.onrender.com`.
+- `VITE_API_BASE_URL`: URL backend, ví dụ `https://soc-incident-api.onrender.com/api/v1`.
+
+Trước khi deploy, database phải được tạo sẵn và có đủ 14 bảng theo schema của ứng dụng. Backend health check cần database kết nối được. Không đưa mật khẩu hoặc thông tin kết nối vào Git.
+
+## 4. Database và dữ liệu mẫu
 
 1. Sao lưu database trước mọi thay đổi.
 2. Tạo database/schema theo DDL hiện có nếu chưa có.
@@ -72,7 +83,7 @@ Mở http://localhost:5173. Đăng nhập bằng username/password đã đặt t
 5. Không chạy seed lặp lại nếu dữ liệu đã có, vì có thể trùng khóa chính.
 6. App không chạy seed hoặc migration khi khởi động.
 
-## 4. Các endpoint chính
+## 5. Các endpoint chính
 
 - `POST /api/v1/auth/login`
 - `GET /api/v1/auth/me`
@@ -87,7 +98,7 @@ Mở http://localhost:5173. Đăng nhập bằng username/password đã đặt t
 
 All data endpoints require a Bearer token. The table API only permits the 14 allowlisted tables. SQLAlchemy parameterizes values and validates field names against reflected columns.
 
-## 5. Important limitations / next implementation steps
+## 6. Important limitations / next implementation steps
 
 This first runnable version supplies real authentication, schema-aware CRUD, and live dashboard counts. It is a foundation, not a fully validated production SOC platform yet.
 
@@ -98,7 +109,7 @@ This first runnable version supplies real authentication, schema-aware CRUD, and
 - SLA targets, alert ingestion, Wazuh/Elastic integration, notifications, and real-time streaming are not represented as completed features.
 - Before production, add dedicated integration tests against a disposable MySQL database, configure TLS/network restrictions, rotate secrets, use a least-privilege MySQL user, and implement authorization policies per action.
 
-## 6. Tests
+## 7. Tests
 
 From `backend`:
 
@@ -116,4 +127,3 @@ database-data/  source SQL and seed documentation from the supplied ZIP
 ```
 =======
 # soc-incident-management
-
