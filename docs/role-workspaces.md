@@ -57,9 +57,12 @@ CRUD cũ được giữ cho danh mục. Các đường ghi chung vào Incident, 
 lịch sử, hành động, IOC và liên kết IOC/Technique bị chặn để tránh vượt qua
 workflow. Admin có quyền danh mục theo yêu cầu mới, không có quyền nghiệp vụ.
 
-L2 và Responder nhận danh sách Incident được giao; hồ sơ liên quan cùng IOC
-có thể xem để tham khảo theo quyền đọc hiện có, nhưng không thể cập nhật nếu
-chưa được phân công. Frontend ẩn thao tác và backend kiểm tra phân công.
+L2 và Responder chỉ đọc Incident có phân công cho nhân viên liên kết với tài
+khoản. Hồ sơ khác, kể cả cùng IOC, trả 403 ở endpoint chi tiết/CRUD một bản ghi.
+Danh sách, dữ liệu con, intelligence, báo cáo và dashboard đều lọc theo cùng
+phạm vi; không trả ID Incident ngoài phân công qua liên kết IOC dùng chung.
+Xóa phân công thu hồi quyền đọc ở yêu cầu kế tiếp. Frontend không quyết định
+phạm vi này. Quyền các vai trò khác giữ nguyên; xem [roles.md](roles.md).
 
 ## Quy tắc cũ và cách sửa
 
