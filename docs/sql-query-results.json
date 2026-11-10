@@ -1,0 +1,103 @@
+{
+  "checked_at_utc": "2026-11-10T08:18:18.094281",
+  "parameters": {
+    "month_start": "2026-11-01",
+    "date_from": "2026-11-01",
+    "date_to": "2026-12-01",
+    "incident_id": "DMINC004",
+    "now_ref": "2026-11-10 08:18:18.031093",
+    "overload_threshold": 5
+  },
+  "queries": [
+    {
+      "query": 1,
+      "requirement": "Incident trong khoảng ngày [từ, đến), ưu tiên mức độ nghiêm trọng.",
+      "row_count": 25
+    },
+    {
+      "query": 2,
+      "requirement": "Top 10 tài sản có nhiều cảnh báo nhất trong tháng được chọn.",
+      "row_count": 8
+    },
+    {
+      "query": 3,
+      "requirement": "Tổ chức có nhiều Incident Critical+High nhất, giữ các tổ chức đồng hạng.",
+      "row_count": 1
+    },
+    {
+      "query": 4,
+      "requirement": "Incident đang xử lý và đã vi phạm SLA tại mốc @now_ref.",
+      "row_count": 20
+    },
+    {
+      "query": 5,
+      "requirement": "Thời gian xử lý trung bình theo tháng đóng của từng nhân viên.",
+      "row_count": 18
+    },
+    {
+      "query": 6,
+      "requirement": "Số Incident từng nhân viên tham gia theo tháng phát hiện.",
+      "row_count": 18
+    },
+    {
+      "query": 7,
+      "requirement": "Top 10 Technique MITRE xuất hiện trong nhiều Incident nhất.",
+      "row_count": 4
+    },
+    {
+      "query": 8,
+      "requirement": "Top 10 IOC (đúng cặp loại+giá trị) xuất hiện trong nhiều Incident nhất.",
+      "row_count": 8
+    },
+    {
+      "query": 9,
+      "requirement": "Tất cả cặp Incident có cùng IOC; không ghép nhầm hai loại cùng giá trị.",
+      "row_count": 80
+    },
+    {
+      "query": 10,
+      "requirement": "Tài sản nhiều cảnh báo nhưng chưa từng liên quan Incident CLOSED.",
+      "row_count": 1
+    },
+    {
+      "query": 11,
+      "requirement": "Risk Score mọi tổ chức: Critical*10 + High*5 + Medium*2 + Low.",
+      "row_count": 3
+    },
+    {
+      "query": 12,
+      "requirement": "Top 10 tổ chức theo Risk Score, kèm thứ hạng.",
+      "row_count": 3
+    },
+    {
+      "query": 13,
+      "requirement": "Lịch sử đầy đủ một Incident: đổi trạng thái và hành động, theo thời gian.",
+      "row_count": 6
+    },
+    {
+      "query": 14,
+      "requirement": "Nhân viên tham gia một Incident: vai trò, vị trí, thời điểm, số hành động.",
+      "row_count": 6
+    },
+    {
+      "query": 15,
+      "requirement": "Thưởng từng nhân viên/từng Incident CLOSED, không thưởng nếu vi phạm SLA.",
+      "row_count": 48
+    },
+    {
+      "query": 16,
+      "requirement": "Tổng thưởng và lương+thưởng của từng nhân viên trong tháng được chọn.",
+      "row_count": 6
+    },
+    {
+      "query": 17,
+      "requirement": "Nhân viên xử lý đồng thời quá ngưỡng: quét các khoảng [bắt đầu, kết thúc).",
+      "row_count": 6
+    },
+    {
+      "query": 18,
+      "requirement": "Incident chưa có bất kỳ nhân viên phụ trách nào.",
+      "row_count": 2
+    }
+  ]
+}

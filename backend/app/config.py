@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     admin_username: str = "admin"
     admin_password: str = "ChangeThisImmediately!"
     cors_origins: str = "http://localhost:5173"
+    overload_threshold: int = 5
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 settings = Settings()

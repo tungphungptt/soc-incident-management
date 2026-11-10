@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from functools import wraps
-import hmac
+from .accounts import find_account, verify_password, public_account
 from jose import jwt, JWTError
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -10,7 +10,8 @@ bearer = HTTPBearer(auto_error=False)
 ALGORITHM = "HS256"
 
 def authenticate(username: str, password: str) -> bool:
-    return hmac.compare_digest(username, settings.admin_username) and hmac.compare_digest(password, settings.admin_password)
+    account = find_account(username)
+    return bool(account and account['active'] and verify_password(password, account['password_hash']))
 
 def create_token(username: str) -> str:
     now = datetime.now(timezone.utc)
@@ -25,6 +26,9 @@ def current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer)):
         username = payload.get("sub")
         if not username:
             raise ValueError("Missing subject")
-        return {"username": username, "role": "SOC_MANAGER"}
+        account = find_account(username)
+        if not account or not account['active']:
+            raise ValueError('Account disabled')
+        return public_account(account)
     except (JWTError, ValueError):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
