@@ -107,24 +107,25 @@ Các mức này là dữ liệu mô phỏng được lưu thật, không phải 
 
 ## Migration và seed
 
-Chạy từ `backend`:
+Quy trình demo hiện tại chạy từ thư mục repo, chỉ trên database thử:
 
 ```powershell
-.\.venv\Scripts\python.exe -m scripts.migrate_workspaces
-$env:DEMO_ACCOUNT_PASSWORD = 'Demo@12345'
-try {
-    .\.venv\Scripts\python.exe -m scripts.seed_demo_accounts --with-data
-} finally {
-    Remove-Item Env:DEMO_ACCOUNT_PASSWORD
-}
+backend\.venv\Scripts\python.exe -B docs/demo/reset_demo.py --database soc_schema_test --dry-run
+# Nếu database thử đã tồn tại, lệnh sau xóa và dựng lại CHỈ database đó:
+backend\.venv\Scripts\python.exe -B docs/demo/reset_demo.py --database soc_schema_test --reset-existing
 ```
+
+Xem [hướng dẫn reset](demo/README.md) về guard tên database, mật khẩu demo,
+kho SQLite riêng và thứ tự schema → seed lịch sử → hai migration → tài khoản
+và profile → lương tháng 10/2026. Không dùng kho tài khoản/database dự án.
 
 Migration chỉ chạy thủ công, không tự chạy khi khởi động. Tạo bốn bảng bổ sung
 profile, lương tháng, chính sách thưởng, audit; thêm thời điểm phân công và
 thời lượng hành động, sửa PK phân công và độ chính xác timestamp, cho phép
 NULL thời gian xử lý/đóng. Không xóa dữ liệu nghiệp vụ hay thay tài khoản admin.
 
-`seed_demo_data` cũng có thể chạy riêng để không đặt lại mật khẩu demo.
+`seed_demo_data` là bộ demo 40 Incident trước đây, không thuộc quy trình reset
+seed lịch sử 150 Incident mới. Nó cũng có thể chạy riêng để không đặt lại mật khẩu demo.
 Seed tạo 40 Incident `DMINC000..039`, 80 cảnh báo, 8 tài sản, 3 tổ chức,
 8 IOC, 4 Technique, 6 nhân viên liên kết sáu tài khoản nghiệp vụ, phân công,
 hành động và lịch sử. Các ID demo được dành riêng; bản ghi đã có được bỏ qua,
