@@ -1,0 +1,655 @@
+{
+  "target": "soc_schema_test",
+  "checked_at_utc": "2026-11-10T08:54:37.885408+00:00",
+  "schema": "ok: 18 tables",
+  "workspace_migration": "ok",
+  "business_rules_migration": "ok",
+  "columns": {
+    "incident_ioc": {
+      "LoaiIOC": "VARCHAR(50) COLLATE utf8mb4_unicode_ci"
+    },
+    "hanh_dong_xu_ly": {
+      "ThoiLuongPhut": "INTEGER"
+    },
+    "lich_su_trang_thai": {
+      "NguoiThucHien": "VARCHAR(128) COLLATE utf8mb4_unicode_ci"
+    },
+    "su_co": {
+      "DiemRuiRo": "INTEGER",
+      "MaChuyenGia": "VARCHAR(20) COLLATE utf8mb4_unicode_ci",
+      "VaiTroChuyenGia": "VARCHAR(50) COLLATE utf8mb4_unicode_ci"
+    },
+    "to_chuc": {
+      "DiemRuiRo": "INTEGER"
+    },
+    "su_co_nhan_vien_soc": {
+      "ThoiDiemThamGia": "DATETIME"
+    }
+  },
+  "assignment_pk": [
+    "MaIncident",
+    "MaNV",
+    "VaiTro"
+  ],
+  "seed_errors": [
+    {
+      "start_line": 336,
+      "end_line": 436,
+      "statement": "INSERT INTO `su_co` (`MaIncident`, `ThoiGianBatDau`, `ThoiGianPhatHien`, `ThoiGianXuLy`, `ThoiGianDong`, `MucDoNghiemTrong`, `TrangThai`, `MoTa`, `DiemRuiRo`) VALUES",
+      "error": "(1644, 'SOC_STATE: new incidents must start at NEW')"
+    },
+    {
+      "start_line": 438,
+      "end_line": 488,
+      "statement": "INSERT INTO `su_co` (`MaIncident`, `ThoiGianBatDau`, `ThoiGianPhatHien`, `ThoiGianXuLy`, `ThoiGianDong`, `MucDoNghiemTrong`, `TrangThai`, `MoTa`, `DiemRuiRo`) VALUES",
+      "error": "(1644, 'SOC_STATE: new incidents must start at NEW')"
+    },
+    {
+      "start_line": 491,
+      "end_line": 591,
+      "statement": "INSERT INTO `canh_bao` (`MaCanhBao`, `LoaiCanhBao`, `IPNguon`, `IPDich`, `ThoiGianPhatHien`, `NguonPhatHien`, `MucDoNghiemTrong`, `NoiDung`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao`, CONSTRAINT `fk_alert_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 593,
+      "end_line": 693,
+      "statement": "INSERT INTO `canh_bao` (`MaCanhBao`, `LoaiCanhBao`, `IPNguon`, `IPDich`, `ThoiGianPhatHien`, `NguonPhatHien`, `MucDoNghiemTrong`, `NoiDung`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao`, CONSTRAINT `fk_alert_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 695,
+      "end_line": 795,
+      "statement": "INSERT INTO `canh_bao` (`MaCanhBao`, `LoaiCanhBao`, `IPNguon`, `IPDich`, `ThoiGianPhatHien`, `NguonPhatHien`, `MucDoNghiemTrong`, `NoiDung`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao`, CONSTRAINT `fk_alert_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 797,
+      "end_line": 897,
+      "statement": "INSERT INTO `canh_bao` (`MaCanhBao`, `LoaiCanhBao`, `IPNguon`, `IPDich`, `ThoiGianPhatHien`, `NguonPhatHien`, `MucDoNghiemTrong`, `NoiDung`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao`, CONSTRAINT `fk_alert_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 899,
+      "end_line": 949,
+      "statement": "INSERT INTO `canh_bao` (`MaCanhBao`, `LoaiCanhBao`, `IPNguon`, `IPDich`, `ThoiGianPhatHien`, `NguonPhatHien`, `MucDoNghiemTrong`, `NoiDung`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao`, CONSTRAINT `fk_alert_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 952,
+      "end_line": 1052,
+      "statement": "INSERT INTO `canh_bao_tai_san` (`MaCanhBao`, `MaTS`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao_tai_san`, CONSTRAINT `fk_alert_asset_alert` FOREIGN KEY (`MaCanhBao`) REFERENCES `canh_bao` (`MaCanhBao`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1054,
+      "end_line": 1154,
+      "statement": "INSERT INTO `canh_bao_tai_san` (`MaCanhBao`, `MaTS`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao_tai_san`, CONSTRAINT `fk_alert_asset_alert` FOREIGN KEY (`MaCanhBao`) REFERENCES `canh_bao` (`MaCanhBao`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1156,
+      "end_line": 1256,
+      "statement": "INSERT INTO `canh_bao_tai_san` (`MaCanhBao`, `MaTS`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao_tai_san`, CONSTRAINT `fk_alert_asset_alert` FOREIGN KEY (`MaCanhBao`) REFERENCES `canh_bao` (`MaCanhBao`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1258,
+      "end_line": 1358,
+      "statement": "INSERT INTO `canh_bao_tai_san` (`MaCanhBao`, `MaTS`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao_tai_san`, CONSTRAINT `fk_alert_asset_alert` FOREIGN KEY (`MaCanhBao`) REFERENCES `canh_bao` (`MaCanhBao`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1360,
+      "end_line": 1460,
+      "statement": "INSERT INTO `canh_bao_tai_san` (`MaCanhBao`, `MaTS`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`canh_bao_tai_san`, CONSTRAINT `fk_alert_asset_alert` FOREIGN KEY (`MaCanhBao`) REFERENCES `canh_bao` (`MaCanhBao`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1463,
+      "end_line": 1563,
+      "statement": "INSERT INTO `tai_san_incident` (`MaTS`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`tai_san_incident`, CONSTRAINT `fk_asset_incident_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1565,
+      "end_line": 1665,
+      "statement": "INSERT INTO `tai_san_incident` (`MaTS`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`tai_san_incident`, CONSTRAINT `fk_asset_incident_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1667,
+      "end_line": 1717,
+      "statement": "INSERT INTO `tai_san_incident` (`MaTS`, `MaIncident`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`tai_san_incident`, CONSTRAINT `fk_asset_incident_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 1720,
+      "end_line": 1820,
+      "statement": "INSERT INTO `incident_ioc` (`MaIncident`, `GiaTriIOC`) VALUES",
+      "error": "(1364, \"Field 'LoaiIOC' doesn't have a default value\")"
+    },
+    {
+      "start_line": 1822,
+      "end_line": 1922,
+      "statement": "INSERT INTO `incident_ioc` (`MaIncident`, `GiaTriIOC`) VALUES",
+      "error": "(1364, \"Field 'LoaiIOC' doesn't have a default value\")"
+    },
+    {
+      "start_line": 1924,
+      "end_line": 2024,
+      "statement": "INSERT INTO `incident_ioc` (`MaIncident`, `GiaTriIOC`) VALUES",
+      "error": "(1364, \"Field 'LoaiIOC' doesn't have a default value\")"
+    },
+    {
+      "start_line": 2026,
+      "end_line": 2031,
+      "statement": "INSERT INTO `incident_ioc` (`MaIncident`, `GiaTriIOC`) VALUES",
+      "error": "(1364, \"Field 'LoaiIOC' doesn't have a default value\")"
+    },
+    {
+      "start_line": 2034,
+      "end_line": 2134,
+      "statement": "INSERT INTO `su_co_ky_thuat_mitre` (`MaIncident`, `MaKyThuat`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_ky_thuat_mitre`, CONSTRAINT `fk_incident_tech_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2136,
+      "end_line": 2236,
+      "statement": "INSERT INTO `su_co_ky_thuat_mitre` (`MaIncident`, `MaKyThuat`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_ky_thuat_mitre`, CONSTRAINT `fk_incident_tech_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2238,
+      "end_line": 2288,
+      "statement": "INSERT INTO `su_co_ky_thuat_mitre` (`MaIncident`, `MaKyThuat`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_ky_thuat_mitre`, CONSTRAINT `fk_incident_tech_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2291,
+      "end_line": 2391,
+      "statement": "INSERT INTO `su_co_nhan_vien_soc` (`MaIncident`, `MaNV`, `ViTri`, `VaiTro`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_nhan_vien_soc`, CONSTRAINT `fk_assignment_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2393,
+      "end_line": 2493,
+      "statement": "INSERT INTO `su_co_nhan_vien_soc` (`MaIncident`, `MaNV`, `ViTri`, `VaiTro`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_nhan_vien_soc`, CONSTRAINT `fk_assignment_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2495,
+      "end_line": 2595,
+      "statement": "INSERT INTO `su_co_nhan_vien_soc` (`MaIncident`, `MaNV`, `ViTri`, `VaiTro`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_nhan_vien_soc`, CONSTRAINT `fk_assignment_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2597,
+      "end_line": 2660,
+      "statement": "INSERT INTO `su_co_nhan_vien_soc` (`MaIncident`, `MaNV`, `ViTri`, `VaiTro`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`su_co_nhan_vien_soc`, CONSTRAINT `fk_assignment_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2663,
+      "end_line": 2763,
+      "statement": "INSERT INTO `hanh_dong_xu_ly` (`MaHanhDong`, `ThoiGianThucHien`, `ThoiGian`, `HanhDong`, `KetQua`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`hanh_dong_xu_ly`, CONSTRAINT `fk_action_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2765,
+      "end_line": 2865,
+      "statement": "INSERT INTO `hanh_dong_xu_ly` (`MaHanhDong`, `ThoiGianThucHien`, `ThoiGian`, `HanhDong`, `KetQua`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`hanh_dong_xu_ly`, CONSTRAINT `fk_action_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2867,
+      "end_line": 2967,
+      "statement": "INSERT INTO `hanh_dong_xu_ly` (`MaHanhDong`, `ThoiGianThucHien`, `ThoiGian`, `HanhDong`, `KetQua`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`hanh_dong_xu_ly`, CONSTRAINT `fk_action_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 2969,
+      "end_line": 3033,
+      "statement": "INSERT INTO `hanh_dong_xu_ly` (`MaHanhDong`, `ThoiGianThucHien`, `ThoiGian`, `HanhDong`, `KetQua`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`hanh_dong_xu_ly`, CONSTRAINT `fk_action_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 3036,
+      "end_line": 3136,
+      "statement": "INSERT INTO `lich_su_trang_thai` (`MaLichSu`, `ThoiDiemThayDoi`, `TrangThaiCu`, `TrangThaiMoi`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`lich_su_trang_thai`, CONSTRAINT `fk_history_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 3138,
+      "end_line": 3238,
+      "statement": "INSERT INTO `lich_su_trang_thai` (`MaLichSu`, `ThoiDiemThayDoi`, `TrangThaiCu`, `TrangThaiMoi`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`lich_su_trang_thai`, CONSTRAINT `fk_history_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 3240,
+      "end_line": 3340,
+      "statement": "INSERT INTO `lich_su_trang_thai` (`MaLichSu`, `ThoiDiemThayDoi`, `TrangThaiCu`, `TrangThaiMoi`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`lich_su_trang_thai`, CONSTRAINT `fk_history_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 3342,
+      "end_line": 3442,
+      "statement": "INSERT INTO `lich_su_trang_thai` (`MaLichSu`, `ThoiDiemThayDoi`, `TrangThaiCu`, `TrangThaiMoi`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`lich_su_trang_thai`, CONSTRAINT `fk_history_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    },
+    {
+      "start_line": 3444,
+      "end_line": 3458,
+      "statement": "INSERT INTO `lich_su_trang_thai` (`MaLichSu`, `ThoiDiemThayDoi`, `TrangThaiCu`, `TrangThaiMoi`, `MaIncident`, `MaNV`) VALUES",
+      "error": "(1452, 'Cannot add or update a child row: a foreign key constraint fails (`soc_schema_test`.`lich_su_trang_thai`, CONSTRAINT `fk_history_incident` FOREIGN KEY (`MaIncident`) REFERENCES `su_co` (`MaIncident`) ON DELETE RESTRICT ON UPDATE CASCADE)')"
+    }
+  ],
+  "seed_database_redirect": {
+    "line": 19,
+    "original": "USE soc_incident_management",
+    "executed": "USE soc_schema_test"
+  },
+  "seed_transaction": "rolled back entirely after diagnostic import",
+  "queries_after_original_seed_rollback": [
+    {
+      "query": "Q01",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q02",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q03",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q04",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q05",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q06",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q07",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q08",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q09",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q10",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q11",
+      "rows": 0,
+      "status": "empty",
+      "stored_risk_matches": true
+    },
+    {
+      "query": "Q12",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q13",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q14",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q15",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q16",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q17",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q18",
+      "rows": 0,
+      "status": "empty"
+    }
+  ],
+  "corrected_seed_workflow": "Remove test-only triggers; import historical seed; reapply workspace then business migration",
+  "corrected_seed": "ok",
+  "final_counts": {
+    "canh_bao": 450,
+    "canh_bao_tai_san": 500,
+    "hanh_dong_xu_ly": 364,
+    "incident_ioc": 305,
+    "ioc": 100,
+    "ky_thuat_mitre": 25,
+    "lich_su_trang_thai": 414,
+    "nhan_vien_soc": 30,
+    "soc_account_profiles": 0,
+    "soc_activity_log": 0,
+    "soc_bonus_policy": 4,
+    "soc_monthly_salary": 0,
+    "su_co": 150,
+    "su_co_ky_thuat_mitre": 250,
+    "su_co_nhan_vien_soc": 363,
+    "tai_san": 120,
+    "tai_san_incident": 250,
+    "to_chuc": 20
+  },
+  "critical_missing_expert": 0,
+  "queries_after_corrected_seed_default_parameters": [
+    {
+      "query": "Q01",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q02",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q03",
+      "rows": 1,
+      "status": "ok"
+    },
+    {
+      "query": "Q04",
+      "rows": 46,
+      "status": "ok"
+    },
+    {
+      "query": "Q05",
+      "rows": 148,
+      "status": "ok"
+    },
+    {
+      "query": "Q06",
+      "rows": 184,
+      "status": "ok"
+    },
+    {
+      "query": "Q07",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q08",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q09",
+      "rows": 1017,
+      "status": "ok"
+    },
+    {
+      "query": "Q10",
+      "rows": 6,
+      "status": "ok"
+    },
+    {
+      "query": "Q11",
+      "rows": 20,
+      "status": "ok",
+      "stored_risk_matches": true
+    },
+    {
+      "query": "Q12",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q13",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q14",
+      "rows": 0,
+      "status": "empty"
+    },
+    {
+      "query": "Q15",
+      "rows": 228,
+      "status": "ok"
+    },
+    {
+      "query": "Q16",
+      "rows": 30,
+      "status": "ok"
+    },
+    {
+      "query": "Q17",
+      "rows": 8,
+      "status": "ok"
+    },
+    {
+      "query": "Q18",
+      "rows": 9,
+      "status": "ok"
+    }
+  ],
+  "queries_after_corrected_seed_seed_parameters_parameters": {
+    "month_start": "2026-10-01",
+    "month_end": "2026-11-01",
+    "date_from": "2026-10-01",
+    "date_to": "2026-11-01",
+    "incident_id": "INC004",
+    "now_ref": "2026-10-21 12:00:00"
+  },
+  "queries_after_corrected_seed_seed_parameters": [
+    {
+      "query": "Q01",
+      "rows": 40,
+      "status": "ok"
+    },
+    {
+      "query": "Q02",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q03",
+      "rows": 1,
+      "status": "ok"
+    },
+    {
+      "query": "Q04",
+      "rows": 40,
+      "status": "ok"
+    },
+    {
+      "query": "Q05",
+      "rows": 148,
+      "status": "ok"
+    },
+    {
+      "query": "Q06",
+      "rows": 184,
+      "status": "ok"
+    },
+    {
+      "query": "Q07",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q08",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q09",
+      "rows": 1017,
+      "status": "ok"
+    },
+    {
+      "query": "Q10",
+      "rows": 6,
+      "status": "ok"
+    },
+    {
+      "query": "Q11",
+      "rows": 20,
+      "status": "ok",
+      "stored_risk_matches": true
+    },
+    {
+      "query": "Q12",
+      "rows": 10,
+      "status": "ok"
+    },
+    {
+      "query": "Q13",
+      "rows": 9,
+      "status": "ok"
+    },
+    {
+      "query": "Q14",
+      "rows": 3,
+      "status": "ok"
+    },
+    {
+      "query": "Q15",
+      "rows": 228,
+      "status": "ok"
+    },
+    {
+      "query": "Q16",
+      "rows": 30,
+      "status": "ok"
+    },
+    {
+      "query": "Q17",
+      "rows": 8,
+      "status": "ok"
+    },
+    {
+      "query": "Q18",
+      "rows": 9,
+      "status": "ok"
+    }
+  ],
+  "final_trigger_count": 17,
+  "final_engine_charset": [
+    {
+      "TABLE_NAME": "canh_bao",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "canh_bao_tai_san",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "hanh_dong_xu_ly",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "incident_ioc",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "ioc",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "ky_thuat_mitre",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "lich_su_trang_thai",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "nhan_vien_soc",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "soc_account_profiles",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "soc_activity_log",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "soc_bonus_policy",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "soc_monthly_salary",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "su_co",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "su_co_ky_thuat_mitre",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "su_co_nhan_vien_soc",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "tai_san",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "tai_san_incident",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    },
+    {
+      "TABLE_NAME": "to_chuc",
+      "ENGINE": "InnoDB",
+      "TABLE_COLLATION": "utf8mb4_unicode_ci"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "username": "admin_demo",
+    "route": "#/ADMIN/home",
+    "accent": "#8b5cf6",
+    "menus": [
+      "Tài khoản & phân quyền",
+      "Tổ chức",
+      "Tài sản CNTT",
+      "Nhân viên SOC",
+      "Nhật ký hoạt động"
+    ],
+    "errors": [],
+    "rows": 6,
+    "cards": 0,
+    "role": "ADMIN",
+    "result": "PASS"
+  },
+  {
+    "username": "soc_manager",
+    "route": "#/SOC_MANAGER/home",
+    "accent": "#3b82f6",
+    "menus": [
+      "Trung tâm điều hành",
+      "Hồ sơ Incident",
+      "Của tôi"
+    ],
+    "errors": [],
+    "rows": 89,
+    "cards": 0,
+    "actionForms": {
+      "next": [
+        "Chuyển → INVESTIGATING"
+      ],
+      "actions": 0,
+      "analysis": true,
+      "checklist": 0,
+      "linkForms": 2
+    },
+    "role": "SOC_MANAGER",
+    "result": "PASS"
+  },
+  {
+    "username": "analyst_l1",
+    "route": "#/SOC_L1/home",
+    "accent": "#06b6d4",
+    "menus": [
+      "Hàng đợi phân loại",
+      "Hồ sơ Incident",
+      "Của tôi"
+    ],
+    "errors": [],
+    "rows": 32,
+    "cards": 0,
+    "actionForms": {
+      "next": [
+        "Chuyển → INVESTIGATING"
+      ],
+      "actions": 0,
+      "analysis": false,
+      "checklist": 0,
+      "linkForms": 0
+    },
+    "role": "SOC_L1",
+    "result": "PASS"
+  },
+  {
+    "username": "analyst_l2",
+    "route": "#/SOC_L2/home",
+    "accent": "#f59e0b",
+    "menus": [
+      "Bàn điều tra",
+      "Hồ sơ Incident",
+      "Của tôi"
+    ],
+    "errors": [],
+    "rows": 16,
+    "cards": 8,
+    "actionForms": {
+      "next": [
+        "Chuyển → CONTAINED"
+      ],
+      "actions": 2,
+      "analysis": false,
+      "checklist": 0,
+      "linkForms": 2
+    },
+    "role": "SOC_L2",
+    "result": "PASS"
+  },
+  {
+    "username": "analyst_l3",
+    "route": "#/SOC_L3/home",
+    "accent": "#ec4899",
+    "menus": [
+      "Phòng phân tích chuyên sâu",
+      "Hồ sơ Incident",
+      "Của tôi"
+    ],
+    "errors": [],
+    "rows": 33,
+    "cards": 0,
+    "actionForms": {
+      "next": [
+        "Chuyển → CONTAINED"
+      ],
+      "actions": 2,
+      "analysis": true,
+      "checklist": 0,
+      "linkForms": 2
+    },
+    "role": "SOC_L3",
+    "result": "PASS"
+  },
+  {
+    "username": "incident_responder",
+    "route": "#/INCIDENT_RESPONDER/home",
+    "accent": "#f97316",
+    "menus": [
+      "Trung tâm ứng phó",
+      "Hồ sơ Incident",
+      "Của tôi"
+    ],
+    "errors": [],
+    "rows": 8,
+    "cards": 16,
+    "actionForms": {
+      "next": [
+        "Chuyển → REMEDIATING"
+      ],
+      "actions": 7,
+      "analysis": false,
+      "checklist": 7,
+      "linkForms": 0
+    },
+    "role": "INCIDENT_RESPONDER",
+    "result": "PASS"
+  },
+  {
+    "username": "threat_hunter",
+    "route": "#/THREAT_HUNTER/home",
+    "accent": "#10b981",
+    "menus": [
+      "Không gian săn mối đe dọa",
+      "Hồ sơ Incident",
+      "Tra cứu IOC / MITRE",
+      "Của tôi"
+    ],
+    "errors": [],
+    "rows": 24,
+    "cards": 0,
+    "actionForms": {
+      "next": [],
+      "actions": 0,
+      "analysis": false,
+      "checklist": 0,
+      "linkForms": 2
+    },
+    "role": "THREAT_HUNTER",
+    "result": "PASS"
+  }
+]

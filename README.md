@@ -16,6 +16,17 @@
 
 ## 1. Cấu hình backend (Windows PowerShell)
 
+**Bản nâng cấp bảy giao diện:** xem [hướng dẫn khu vực làm việc và API](docs/role-workspaces.md).
+Trước khi chạy bản mới, từ `backend` thực hiện:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.migrate_workspaces
+```
+
+Tạo đủ tài khoản và dữ liệu nghiệp vụ demo bằng lệnh seed ở mục 6 với tùy chọn
+`--with-data`. Nếu đã có tài khoản, có thể chạy riêng
+`.\.venv\Scripts\python.exe -m scripts.seed_demo_data` để giữ nguyên mật khẩu.
+
 Mở PowerShell trong thư mục `backend`:
 
 ```powershell
@@ -89,16 +100,72 @@ All data endpoints require a Bearer token. The table API only permits the 14 all
 
 ## 5. Important limitations / next implementation steps
 
-This first runnable version supplies real authentication, schema-aware CRUD, and live dashboard counts. It is a foundation, not a fully validated production SOC platform yet.
+The application now has seven role workspaces, persistent accounts, employee
+identity links, transactional incident workflows, SLA clocks, reporting and
+monthly compensation. See [role-workspaces.md](docs/role-workspaces.md) for the
+complete permission matrix, migration, endpoints and verification evidence.
 
-- The ZIP supplied for this build does not include complete DDL, so exact status/severity columns and foreign key details could not be statically validated here.
-- Current authentication is a single environment-configured SOC Manager account. Employee login accounts, persistent roles, password reset, and per-role permission management require separate auth tables/migration.
-- Generic CRUD does not yet implement a dedicated, transaction-safe incident lifecycle service that automatically writes `lich_su_trang_thai` and `hanh_dong_xu_ly`. Use these audit tables carefully until that workflow is implemented against the exact schema.
-- Composite-primary-key tables are listable; generic edit/delete is disabled because a safe composite-key UI is not implemented.
-- SLA targets, alert ingestion, Wazuh/Elastic integration, notifications, and real-time streaming are not represented as completed features.
-- Before production, add dedicated integration tests against a disposable MySQL database, configure TLS/network restrictions, rotate secrets, use a least-privilege MySQL user, and implement authorization policies per action.
+- Shared CRUD is for directories; incident mutations use dedicated workflow endpoints.
+- Composite relationships are managed through assignment and link services.
+- IOC identity is the composite pair `(LoaiIOC, GiaTriIOC)`, including incident foreign keys.
+- Reports aggregate on the server; large deployments need query optimization.
+- Alert ingestion, Wazuh/Elastic integration and real-time streaming remain outside this implementation.
 
 ## 6. Tests
+
+### Bản sửa ràng buộc MySQL và 18 truy vấn
+
+Từ `backend`, sau migration workspace, chạy:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.migrate_business_rules
+.\.venv\Scripts\python.exe -m scripts.verify_queries
+$env:SOC_TEST_MYSQL = '1'
+try {
+    .\.venv\Scripts\python.exe -m pytest -q --disable-warnings -p no:cacheprovider
+} finally {
+    Remove-Item Env:SOC_TEST_MYSQL
+}
+```
+
+Migration sao lưu dữ liệu/schema trước thay đổi vào `backend/migration_backups/`,
+cập nhật thưởng, đổi khóa IOC và cài [sql/triggers.sql](sql/triggers.sql).
+Dừng backend trong khi chạy DDL, sau đó khởi động lại để làm mới reflected schema.
+Không DROP/TRUNCATE/reset dữ liệu. Các test MySQL dùng transaction rollback.
+SQL thuần: [sql/queries.sql](sql/queries.sql). Kết quả và giải thích ràng buộc:
+[docs/mysql-business-rules.md](docs/mysql-business-rules.md).
+
+### Seed tài khoản demo cho 7 vai trò
+
+Chạy thủ công từ thư mục `backend` (PowerShell):
+
+```powershell
+$env:DEMO_ACCOUNT_PASSWORD = 'Demo@12345'
+try {
+    .\.venv\Scripts\python.exe -m scripts.seed_demo_accounts
+} finally {
+    Remove-Item Env:DEMO_ACCOUNT_PASSWORD
+}
+```
+
+Nếu không đặt biến môi trường, script hỏi mật khẩu và ẩn nội dung nhập.
+Mật khẩu chỉ được lưu dưới dạng hash scrypt có salt bằng chính hàm dùng cho
+Admin; không ghi mật khẩu vào file hay in ra log.
+
+Script tạo đúng một tài khoản demo cho mỗi vai trò hiện có:
+`admin_demo`, `soc_manager`, `analyst_l1`, `analyst_l2`, `analyst_l3`,
+`incident_responder`, `threat_hunter`. Tất cả ở trạng thái active.
+Chạy lại sẽ đặt lại vai trò, mật khẩu và active cho đúng bảy username trên,
+không tạo trùng hoặc thay đổi tài khoản `admin` và tài khoản khác.
+Kho tài khoản là `backend/accounts.sqlite3`; script không thay đổi dữ liệu MySQL.
+Script in bảng `username | role | status` sau khi hoàn tất.
+
+Thêm `--with-data` vào lệnh seed để tạo cả 40 Incident, quan hệ nghiệp vụ,
+profile và lương/chính sách thưởng demo. Lựa chọn này cũng chạy migration cần thiết.
+
+Mở http://127.0.0.1:5173/, đăng xuất rồi đăng nhập bằng từng username với
+mật khẩu đã chọn. `admin_demo` mở quản lý tài khoản; các vai trò nghiệp vụ
+mở dashboard và menu tương ứng. Chi tiết quyền: [docs/roles.md](docs/roles.md).
 
 From `backend`:
 
