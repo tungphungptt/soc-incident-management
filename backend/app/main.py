@@ -7,6 +7,7 @@ from sqlalchemy import select, insert, update, delete, func, and_
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError, DBAPIError
 from .config import settings
 from .db import engine, TABLES, get_table, db_health
+from .read_scope import predicate as read_predicate
 from .security import authenticate, create_token, current_user
 from .accounts import initialize, connect, find_account, public_account, password_hash, permissions, ROLES, account_event
 from .workspaces import router as workspace_router
@@ -183,6 +184,7 @@ def list_rows(table_name: str, page: int = Query(1, ge=1), page_size: int = Quer
         if text_cols:
             stmt = stmt.where(and_(*[]) if False else __import__("sqlalchemy").or_(*[c.like(f"%{search}%") for c in text_cols]))
     with engine.connect() as conn:
+        stmt = stmt.where(read_predicate(conn, user, table, get_table))
         total_stmt = select(func.count()).select_from(stmt.subquery())
         total = conn.execute(total_stmt).scalar_one()
         rows = conn.execute(stmt.order_by(*(list(table.primary_key.columns) if len(table.primary_key.columns) else [])).limit(page_size).offset((page-1)*page_size)).mappings().all()
@@ -198,6 +200,9 @@ def get_row(table_name: str, key: str, user=Depends(current_user)):
     pk = pks[0]
     with engine.connect() as conn:
         row = conn.execute(select(table).where(pk == key)).mappings().first()
+        if row is not None and not conn.execute(select(pk).where(
+                pk == key, read_predicate(conn, user, table, get_table))).first():
+            raise HTTPException(403, 'Bản ghi không thuộc sự cố được phân công cho bạn.')
     if row is None:
         raise HTTPException(status_code=404, detail="Record not found")
     return serialize_row(dict(row))
@@ -294,7 +299,7 @@ def dashboard(user=Depends(current_user)):
                 continue
             try:
                 table = get_table(name)
-                metrics[name] = conn.execute(select(func.count()).select_from(table)).scalar_one()
+                metrics[name] = conn.execute(select(func.count()).select_from(table).where(read_predicate(conn, user, table, get_table))).scalar_one()
             except Exception:
                 metrics[name] = None
         try:
@@ -304,9 +309,9 @@ def dashboard(user=Depends(current_user)):
             status_col = cols.get("trangthai") or cols.get("trang_thai") or cols.get("status")
             severity_col = cols.get("mucdo") or cols.get("muc_do") or cols.get("severity")
             if status_col:
-                metrics["incidents_by_status"] = {str(r[0] or "UNKNOWN"): r[1] for r in conn.execute(select(incident.c[status_col], func.count()).group_by(incident.c[status_col]))}
+                metrics["incidents_by_status"] = {str(r[0] or "UNKNOWN"): r[1] for r in conn.execute(select(incident.c[status_col], func.count()).where(read_predicate(conn, user, incident, get_table)).group_by(incident.c[status_col]))}
             if severity_col:
-                metrics["incidents_by_severity"] = {str(r[0] or "UNKNOWN"): r[1] for r in conn.execute(select(incident.c[severity_col], func.count()).group_by(incident.c[severity_col]))}
+                metrics["incidents_by_severity"] = {str(r[0] or "UNKNOWN"): r[1] for r in conn.execute(select(incident.c[severity_col], func.count()).where(read_predicate(conn, user, incident, get_table)).group_by(incident.c[severity_col]))}
         except Exception:
             metrics["incidents_by_status"] = {}
             metrics["incidents_by_severity"] = {}
@@ -317,5 +322,5 @@ def incident_summary(user=Depends(current_user)):
     require_permission(user, 'su_co', 'read')
     table = require_table("su_co")
     with engine.connect() as conn:
-        rows = conn.execute(select(table).limit(500)).mappings().all()
+        rows = conn.execute(select(table).where(read_predicate(conn, user, table, get_table)).limit(500)).mappings().all()
     return {"items": [serialize_row(dict(r)) for r in rows], "note": "Summary based on existing incident records; no synthetic values added."}

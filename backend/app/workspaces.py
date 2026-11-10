@@ -14,6 +14,7 @@ from .security import current_user
 from .accounts import find_account, ROLES, permissions, connect as account_connection
 from .config import settings
 from .workspace_schema import profiles, payroll, bonus_policy, audit, log
+from .read_scope import predicate as read_predicate, require_incident, restricted
 
 router = APIRouter(prefix=settings.api_prefix)
 SLA = {'CRITICAL': 60, 'HIGH': 240, 'MEDIUM': 720, 'LOW': 1440}
@@ -29,8 +30,12 @@ def allow(user, roles=STAFF):
         raise HTTPException(403, 'Bạn không có quyền thực hiện thao tác này.')
 
 
-def rows(conn, name):
-    return [dict(r) for r in conn.execute(select(get_table(name))).mappings()]
+def rows(conn, name, user=None):
+    table = get_table(name)
+    query = select(table)
+    if user is not None:
+        query = query.where(read_predicate(conn, user, table, get_table))
+    return [dict(r) for r in conn.execute(query).mappings()]
 
 
 def employee(conn, user, required=True):
@@ -151,9 +156,9 @@ def list_incidents(status: str | None = None, severity: str | None = None, mine:
     if start and end and start >= end:
         raise HTTPException(422, 'Ngày bắt đầu phải trước ngày kết thúc.')
     with engine.connect() as conn:
-        own = employee(conn, user, required=mine or user['role'] in {'SOC_L2','INCIDENT_RESPONDER'})
+        own = employee(conn, user, required=mine and not restricted(user))
         result = []
-        for row in rows(conn, 'su_co'):
+        for row in rows(conn, 'su_co', user):
             if status and row['TrangThai'] != status or severity and row['MucDoNghiemTrong'] != severity:
                 continue
             if start and row['ThoiGianPhatHien'] < start or end and row['ThoiGianPhatHien'] >= end:
@@ -169,10 +174,11 @@ def list_incidents(status: str | None = None, severity: str | None = None, mine:
 def detail(key: str, user=Depends(current_user)):
     allow(user)
     with engine.connect() as conn:
+        require_incident(conn, user, key, get_table)
         row = incident(conn, key)
         own = employee(conn, user, required=False)
         can_work = user['role'] not in {'SOC_L2','INCIDENT_RESPONDER'} or any(a['MaNV']==own for a in assignments(conn,key))
-        all_data = {n: rows(conn, n) for n in TABLES if n != 'su_co'}
+        all_data = {n: rows(conn, n, user) for n in TABLES if n != 'su_co'}
         linked = lambda name: [r for r in all_data[name] if r.get('MaIncident') == key]
         asset_ids = {r['MaTS'] for r in linked('tai_san_incident')}
         iocs = {(r['LoaiIOC'],r['GiaTriIOC']) for r in linked('incident_ioc')}
@@ -442,10 +448,10 @@ def create_ioc(body: IOCBody, user=Depends(current_user)):
 def intelligence(kind: str='', value: str='', source: str='', confidence: str='', technique: str='', user=Depends(current_user)):
     allow(user)
     with engine.connect() as conn:
-        iocs=[r for r in rows(conn,'ioc') if (not kind or r['LoaiIOC']==kind) and value.lower() in r['GiaTriIOC'].lower() and source.lower() in r['Nguon'].lower() and (not confidence or r['MucDoTinCay']==confidence)]
-        tech=[r for r in rows(conn,'ky_thuat_mitre') if technique.lower() in (r['MaKyThuat']+' '+r['TenKyThuat']).lower()]
+        iocs=[r for r in rows(conn,'ioc',user) if (not kind or r['LoaiIOC']==kind) and value.lower() in r['GiaTriIOC'].lower() and source.lower() in r['Nguon'].lower() and (not confidence or r['MucDoTinCay']==confidence)]
+        tech=[r for r in rows(conn,'ky_thuat_mitre',user) if technique.lower() in (r['MaKyThuat']+' '+r['TenKyThuat']).lower()]
         if 'read' not in permissions(user['role'],'ky_thuat_mitre'): tech=[]
-        links=rows(conn,'incident_ioc')
+        links=rows(conn,'incident_ioc',user)
         for r in iocs:r['incidents']=sorted({x['MaIncident'] for x in links if x['GiaTriIOC']==r['GiaTriIOC'] and x['LoaiIOC']==r['LoaiIOC']})
         return {'iocs':iocs,'techniques':tech}
 
@@ -515,9 +521,9 @@ def reports(month: str | None=None, user=Depends(current_user)):
     allow(user)
     month=month_value(month)
     with engine.connect() as conn:
-        inc=rows(conn,'su_co'); aa=rows(conn,'su_co_nhan_vien_soc'); alerts=rows(conn,'canh_bao')
-        assets=rows(conn,'tai_san'); al=rows(conn,'canh_bao_tai_san'); ai=rows(conn,'tai_san_incident')
-        ti=rows(conn,'su_co_ky_thuat_mitre'); ii=rows(conn,'incident_ioc')
+        inc=rows(conn,'su_co',user); aa=rows(conn,'su_co_nhan_vien_soc',user); alerts=rows(conn,'canh_bao',user)
+        assets=rows(conn,'tai_san',user); al=rows(conn,'canh_bao_tai_san',user); ai=rows(conn,'tai_san_incident',user)
+        ti=rows(conn,'su_co_ky_thuat_mitre',user); ii=rows(conn,'incident_ioc',user)
         by_id={s['MaIncident']:s for s in inc}; by_asset={s['MaTS']:s for s in assets}
         selected_alerts={a['MaCanhBao'] for a in alerts if a['ThoiGianPhatHien'].strftime('%Y-%m')==month}
         hot=Counter(a['MaTS'] for a in al if a['MaCanhBao'] in selected_alerts)
@@ -532,8 +538,8 @@ def reports(month: str | None=None, user=Depends(current_user)):
             keys=sorted({x['MaIncident'] for x in ii if x['GiaTriIOC']==value and x['LoaiIOC']==kind})
             if len(keys)>1:same.append({'ioc':value,'type':kind,'incidents':keys,'count':len(keys)})
         result={'month':month,'top_assets':hot_rows,'never_closed_assets':never,
-                'top_techniques':[{**r,'incident_count':technique_counts[r['MaKyThuat']]} for r in sorted(rows(conn,'ky_thuat_mitre'),key=lambda r:-technique_counts[r['MaKyThuat']])[:10]],
-                'top_iocs':[{**r,'incident_count':ioc_counts[(r['LoaiIOC'],r['GiaTriIOC'])]} for r in sorted(rows(conn,'ioc'),key=lambda r:-ioc_counts[(r['LoaiIOC'],r['GiaTriIOC'])])[:10]],
+                'top_techniques':[{**r,'incident_count':technique_counts[r['MaKyThuat']]} for r in sorted(rows(conn,'ky_thuat_mitre',user),key=lambda r:-technique_counts[r['MaKyThuat']])[:10]],
+                'top_iocs':[{**r,'incident_count':ioc_counts[(r['LoaiIOC'],r['GiaTriIOC'])]} for r in sorted(rows(conn,'ioc',user),key=lambda r:-ioc_counts[(r['LoaiIOC'],r['GiaTriIOC'])])[:10]],
                 'same_ioc':sorted(same,key=lambda r:-r['count'])}
         if user['role'] in {'SOC_L1','INCIDENT_RESPONDER'}:
             result={k:v for k,v in result.items() if k in {'month','top_assets'}}
