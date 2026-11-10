@@ -3,12 +3,13 @@ import hashlib
 import hmac
 import secrets
 import sqlite3
+import os
 from datetime import datetime
 from contextlib import contextmanager
 from pathlib import Path
 from .config import settings
 
-ACCOUNT_DB = Path(__file__).resolve().parents[1] / 'accounts.sqlite3'
+ACCOUNT_DB = Path(os.environ.get('SOC_ACCOUNT_DB') or (Path(__file__).resolve().parents[1] / 'accounts.sqlite3'))
 ROLES = {
     'ADMIN': ('Admin', 'Quản lý tài khoản, cấp vai trò và khóa quyền truy cập.'),
     'SOC_MANAGER': ('SOC Manager', 'Giám sát tổng quan, quản lý nhân sự, phân công và báo cáo sự cố.'),
