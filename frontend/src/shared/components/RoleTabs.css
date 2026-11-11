@@ -1,0 +1,18 @@
+.ui2-role-tabs{display:flex;gap:6px;overflow-x:auto;padding:6px;background:var(--surface-alt);border:1px solid var(--line);border-radius:12px;margin:20px 0 24px}.ui2-role-tabs [role=tab]{flex-shrink:0;border:0;background:transparent;color:var(--muted);padding:12px 18px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}.ui2-role-tabs [aria-selected=true]{background:var(--surface);color:var(--accent);box-shadow:0 2px 6px #10274614}.ui2-role-tabs [role=tab]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+.ui2-admin [hidden], .ui2-manager [hidden], .ui2-accounts [hidden] { display: none !important; }
+.ui2-heading { padding: 4px 0 0; }
+.ui2-heading > span { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .09em; }
+.ui2-heading h2 { margin: 8px 0; font-size: 24px; }
+.ui2-heading p, .ui2-section-note { color: var(--muted); line-height: 1.7; }
+.ui2-filters { display: grid; grid-template-columns: minmax(180px, 2fr) repeat(2, minmax(140px, 1fr)); gap: 16px; padding: 20px; background: var(--surface-alt); border-radius: 10px; }
+.ui2-filters label { display: grid; gap: 8px; font-size: 14px; font-weight: 600; }
+.ui2-result-count { color: var(--muted); font-size: 13px; }
+@media (max-width: 900px) {
+ .ui2-filters { grid-template-columns: 1fr 1fr; }
+ .ui2-filters label:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+ .ui2-filters { grid-template-columns: 1fr; }
+ .ui2-heading h2 { font-size: 22px; }
+}

@@ -1,0 +1,61 @@
+/* UI-3 presentation only. No selectors apply to the other four workspaces. */
+:root .role-workspace .ui3-l1, :root .role-workspace .ui3-l2, :root .role-workspace .ui3-l3 { display: block; min-width: 0; }
+.ui3-l1 [hidden], .ui3-l2 [hidden], .ui3-l3 [hidden] { display: none !important; }
+.ui3-heading { margin-bottom: 24px; }
+.ui3-heading > span, .ui3-detail-context > span { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--ui-primary); }
+.ui3-heading p, .ui3-detail-context p { color: var(--ui-muted); }
+.ui3-triage-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+.ui3-triage-grid > *, .ui3-investigation-grid > * { min-width: 0; }
+.ui3-create { position: sticky; top: 20px; }
+.ui3-process { border: 1px solid var(--ui-line); background: var(--ui-surface); border-radius: 12px; padding: 20px; margin-bottom: 20px; font-size: 14px; }
+.ui3-process ol { padding-left: 20px; margin-bottom: 0; color: var(--ui-muted); line-height: 1.9; }
+:root .role-workspace .ui3-l1 .queue-banner { border-radius: 14px; background: var(--ui-surface); gap: 20px; flex-wrap: wrap; padding: 24px; }
+:root .role-workspace .ui3-l1 .queue-banner label { min-width: 170px; }
+.ui3-filters { display: grid; grid-template-columns: minmax(160px, 2fr) minmax(150px, 1fr); gap: 16px; padding: 18px; background: var(--ui-surface-alt); border-radius: 10px; }
+.ui3-filters label, .ui3-alert-toolbar label { display: grid; gap: 8px; font-size: 14px; font-weight: 500; }
+.ui3-filters:has(> label:only-child) { grid-template-columns: minmax(0,1fr); }
+.ui3-alert-toolbar { display: flex; align-items: end; gap: 20px; justify-content: space-between; margin-bottom: 20px; }
+.ui3-alert-toolbar label { flex: 1; }
+.ui3-alert-toolbar > span { color: var(--ui-primary); font-size: 13px; padding-bottom: 12px; }
+.ui3-queue-clock { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 14px 18px; margin-bottom: 16px; background: var(--ui-surface-alt); border-left: 3px solid var(--ui-primary); border-radius: 8px; font-size: 13px; color: var(--ui-muted); }
+.ui3-queue-clock strong, .ui3-queue-clock time { color: var(--ui-text); margin-left: 8px; }
+.ui3-result-count { color: var(--ui-muted); }
+.ui3-investigation-grid { display: grid; grid-template-columns: 240px minmax(0,1fr); align-items: start; gap: 24px; }
+.ui3-l2 .investigation-rail { position: static; padding: 24px; border-radius: 14px; background: var(--ui-surface); }
+.ui3-l2 .case-grid { grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 20px; }
+.ui3-case { min-width: 0; border: 1px solid var(--ui-line); border-radius: 12px; padding: 16px; background: var(--ui-surface-alt); }
+.ui3-case .case-card { width: 100%; text-align: left; background: var(--ui-surface); margin-top: 14px; }
+.ui3-case-meta { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 10px; }
+.ui3-case-meta time { font-size: 12px; color: var(--ui-muted); }
+:root .role-workspace .ui3-case .case-card p { font-size: 15px; line-height: 1.8; overflow-wrap: anywhere; }
+.ui3-l3 .analysis-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; align-items: start; }
+.ui3-l3 .analysis-hero { border: 1px solid var(--ui-line); border-radius: 14px; background: var(--ui-surface); padding: 26px; margin-bottom: 24px; }
+.ui3-l3 .analysis-grid > :last-child { grid-column: 1 / -1; }
+.ui3-detail-context { margin-bottom: 20px; }
+.ui3-detail-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.ui3-detail:not(:has(.detail-grid)) .ui3-detail-nav { display: none; }
+.ui3-detail:has(.detail-actions:empty) .ui3-actions-jump, .ui3-detail .detail-actions:empty { display: none; }
+.ui3-detail .w-detail-head { padding: 20px; background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: 14px; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+.ui3-detail .detail-grid { grid-template-columns: minmax(0,1fr) 340px; gap: 24px; align-items: start; }
+.ui3-detail .detail-grid > *, .ui3-detail .w-columns > * { min-width: 0; }
+.ui3-detail .detail-actions { padding: 20px; border: 1px solid var(--ui-line); background: var(--ui-surface-alt); border-radius: 14px; }
+.ui3-detail .detail-actions::before { content: 'THAO TÁC THEO QUYỀN HIỆN TẠI'; display: block; color: var(--ui-muted); font-size: 12px; font-weight: 600; margin-bottom: 20px; }
+.ui3-detail .detail-actions .w-panel { padding: 18px; margin-bottom: 20px; }
+.ui3-detail .detail-evidence > .w-panel:first-child p { white-space: pre-wrap; }
+.ui3-detail .w-panel, .ui3-detail .detail-actions { scroll-margin-top: 24px; }
+.ui3-detail .detail-evidence .w-columns { grid-template-columns: 1fr; }
+:root .role-workspace .ui3-detail .w-table :is(th,td) { min-width: 170px; line-height: 1.8; }
+:root .role-workspace .ui3-detail .w-table td { overflow-wrap: anywhere; }
+:root .role-workspace .ui3-l3 .ui3-ioc-panel .w-table :is(th,td):first-child { min-width: 300px; max-width: 420px; }
+:root .role-workspace .ui3-detail .detail-evidence .w-columns .w-panel:last-child .w-table :is(th,td):nth-child(2) { min-width: 300px; max-width: 420px; }
+@media (max-width: 1200px) { .ui3-triage-grid { grid-template-columns: minmax(0,1fr); } .ui3-create { position: static; } .ui3-detail .detail-grid { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 900px) { .ui3-investigation-grid, .ui3-l3 .analysis-grid { grid-template-columns: minmax(0,1fr); } .ui3-l2 .case-grid { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 560px) {
+ .ui3-filters { grid-template-columns: minmax(0,1fr); }
+ .ui3-alert-toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+ .ui3-detail .detail-actions { padding: 12px; }
+ .ui3-detail-nav .ui-button { flex: 1 0 auto; }
+ .ui3-l3 .analysis-hero { padding: 20px; display: grid; grid-template-columns: minmax(0,1fr); gap: 16px; }
+ .ui3-l3 .analysis-hero > strong { display: flex; align-items: center; gap: 14px; text-align: left; }
+ :root .role-workspace .ui3-l3 .analysis-hero > strong small { font-size: 13px; max-width: none; margin: 0; }
+}

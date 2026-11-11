@@ -1,0 +1,10 @@
+
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #293a51;background:#132238;color:#dce8f6;border-radius:8px;padding:8px 10px;font-size:12px;white-space:nowrap}
+.theme-toggle:hover{filter:brightness(1.12)}
+.theme-toggle:focus-visible{outline:2px solid #20b8b7;outline-offset:3px}
+:root[data-theme="light"] .theme-toggle{border-color:#cbd8e5;background:#fff;color:#243b53}
+:root[data-theme="light"] .nav-item.active{background:#e0f3f3;color:#126b70}
+:root[data-theme="light"] .brand-mark{background:#e3f3f5}
+:root[data-theme="light"] .avatar,:root[data-theme="light"] .top-avatar,:root[data-theme="light"] .module-icon,:root[data-theme="light"] .quick-link>span{background:#e1f0f3;color:#176c75}
+:root[data-theme="light"] .error-banner,:root[data-theme="light"] .error-box{background:#fff0f3;border-color:#edbdc8;color:#a32949}
+:root[data-theme="light"] .error-banner button{color:#a32949}

@@ -1,0 +1,24 @@
+/* Original, unmodified Be Vietnam Pro fonts; SIL OFL in public/fonts/be-vietnam-pro/. */
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/be-vietnam-pro/BeVietnamPro-Regular.ttf') format('truetype')}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/be-vietnam-pro/BeVietnamPro-Medium.ttf') format('truetype')}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/be-vietnam-pro/BeVietnamPro-SemiBold.ttf') format('truetype')}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/be-vietnam-pro/BeVietnamPro-Bold.ttf') format('truetype')}
+
+:root{
+  --ui-font:'Be Vietnam Pro','Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  --ui-canvas:#f4f7fb;--ui-surface:#fff;--ui-surface-alt:#f8fafc;--ui-line:#dce4ef;
+  --ui-text:#172b4d;--ui-muted:#52647d;--ui-primary:#1d4ed8;--ui-primary-hover:#1e40af;
+  --ui-primary-soft:#eff4ff;--ui-danger:#b4233b;--ui-danger-soft:#fff1f3;
+  --ui-success:#126145;--ui-success-soft:#ecfdf5;--ui-focus:#2563eb;
+  --ui-sidebar:#10213d;--ui-sidebar-muted:#b8c8df;--ui-sidebar-active:#1d3c68;
+  --ui-shadow:0 2px 4px #10213d04,0 8px 24px #10213d05;
+  --ui-radius:14px;color-scheme:light;font-family:var(--ui-font);color:var(--ui-text);background:var(--ui-canvas);
+}
+:root[data-theme='dark']{
+  --ui-canvas:#0c1423;--ui-surface:#142137;--ui-surface-alt:#1a2a43;--ui-line:#34455e;
+  --ui-text:#edf3fc;--ui-muted:#b4c3d8;--ui-primary:#93baff;--ui-primary-hover:#b4d0ff;
+  --ui-primary-soft:#213b61;--ui-danger:#ffb4c2;--ui-danger-soft:#442333;
+  --ui-success:#8de1bd;--ui-success-soft:#193c33;--ui-focus:#93baff;
+  --ui-sidebar:#0d192c;--ui-sidebar-muted:#b8c8df;--ui-sidebar-active:#213d65;
+  --ui-shadow:0 4px 24px #0002;color-scheme:dark;
+}

@@ -1,0 +1,1 @@
+.login-screen{min-height:100vh;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 20%,var(--palette-128) 0%,var(--palette-1) 60%);padding:20px}

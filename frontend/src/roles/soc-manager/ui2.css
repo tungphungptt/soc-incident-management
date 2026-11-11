@@ -1,0 +1,14 @@
+
+.role-workspace[data-role="SOC_MANAGER"] .ui2-manager { display: block; min-width: 0; }
+.ui2-manager .manager-risk-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+.ui2-manager .w-panel { margin-bottom: 20px; }
+.ui2-manager .w-columns { align-items: start; }
+.ui2-manager .manager-risk-grid > * { min-width: 0; }
+.ui2-manager small { display: block; line-height: 1.7; color: var(--muted); padding-top: 14px; }
+.ui2-command-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 20px; }
+:root .role-workspace .ui2-manager .ui2-command-value { font-size: 32px; font-weight: 700; margin: 4px 0; color: var(--accent); }
+.ui2-command-value span { font-size: 14px; font-weight: 500; color: var(--muted); }
+.ui2-command-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+@media (max-width: 900px) {
+ .ui2-manager .manager-risk-grid, .ui2-command-grid { grid-template-columns: 1fr; }
+}

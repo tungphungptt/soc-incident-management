@@ -1,0 +1,17 @@
+@import '../styles/theme/workspace.css';
+@import '../styles/shared/workspace.css';
+@import '../roles/admin/workspace.css';
+@import '../styles/shared/workspace-2.css';
+@import '../roles/soc-manager/workspace.css';
+@import '../roles/soc-l1/workspace.css';
+@import '../roles/soc-l2/workspace.css';
+@import '../styles/shared/cases.css';
+@import '../roles/soc-l3/workspace.css';
+@import '../roles/incident-responder/workspace.css';
+@import '../roles/threat-hunter/workspace.css';
+@import '../styles/shared/incident-detail.css';
+@import '../roles/incident-responder/checklist.css';
+@import '../styles/shared/timeline.css';
+@import '../styles/shared/personal.css';
+@import '../styles/shared/field-labels.css';
+@import '../styles/shared/responsive.css';

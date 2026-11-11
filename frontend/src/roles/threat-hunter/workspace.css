@@ -1,0 +1,2 @@
+
+.hunt-search{padding:30px;border-radius:13px;border:1px solid var(--line);background:radial-gradient(ellipse at 15% 0,color-mix(in srgb,var(--accent) 15%,transparent),transparent 75%),var(--surface);margin-bottom:24px}.hunt-search h2{font:600 28px 'Space Grotesk',sans-serif;margin:14px 0 24px}.hunt-query{display:flex;gap:12px}.hunt-query input{width:100%;padding:16px}.hunt-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}.hunter-results{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px}
