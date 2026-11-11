@@ -1,8 +1,14 @@
 import {Row} from '../types';
 
+export const SERVER_UNAVAILABLE = 'Máy chủ chưa sẵn sàng';
+
 export async function api(token:string,path:string,init:RequestInit={}) {
- const response=await fetch((import.meta.env.VITE_API_BASE_URL||'/api/v1')+path,{...init,headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`,...init.headers}});
- const data=await response.json().catch(()=>({}));
+ let response:Response;
+ try{response=await fetch((import.meta.env.VITE_API_BASE_URL||'/api/v1')+path,{...init,headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`,...init.headers}});}catch{throw new Error(SERVER_UNAVAILABLE);}
+ if(response.status===401)window.dispatchEvent(new Event('soc-session-expired'));
+ if(response.status>=500||response.status===404||!response.headers.get('content-type')?.toLowerCase().includes('application/json'))throw new Error(SERVER_UNAVAILABLE);
+ const data=await response.json().catch(()=>null);
+ if(data===null||typeof data!=='object')throw new Error(SERVER_UNAVAILABLE);
  if(!response.ok){
   if(response.status===401)window.dispatchEvent(new Event('soc-session-expired'));
   const detail=data.detail;
